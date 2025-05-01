@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -17,6 +18,9 @@ public class CoffeeShopManager : MonoBehaviour
 
     private int _ordersCount = 1;
     private string _fullOrder = "";
+    private OrderStruct _orderStruct;
+
+    public Action<OrderStruct> CreateOrder;
 
     private void OnEnable()
     {
@@ -38,10 +42,16 @@ public class CoffeeShopManager : MonoBehaviour
     private void HandleAddOrder()
     {
         if (_fullOrder == "")
+        {
             _fullOrder = $"Order N°{_ordersCount}: \n";
+            _orderStruct.IDOrder = _ordersCount;
+        }
 
-        _fullOrder += _orderSelectorView.GetOrder();
+        _fullOrder += _orderSelectorView.GetOrder(out MenuItem menu);
         _fullOrder += "\n";
+
+        _orderStruct.MenuItems = new();
+        _orderStruct.MenuItems.Add(menu);
 
         _currentOrder.text = "Current Order: \n" + _fullOrder;
     }
@@ -53,6 +63,9 @@ public class CoffeeShopManager : MonoBehaviour
 
         _orderList.text += _fullOrder;
 
+        CreateOrder?.Invoke(_orderStruct);
+
+        _orderStruct = new();
         _ordersCount++;
         _fullOrder = "";
     }

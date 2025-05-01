@@ -33,9 +33,9 @@ public class OrderSelectorView : MonoBehaviour
         HandleValueDropDownChanged(0);
     }
 
-    public string GetOrder()
+    public string GetOrder(out MenuItem menuItem)
     {
-        MenuItem menuItem = _menuItem[_currentIndex].GetMenuItem();
+        menuItem = _menuItem[_currentIndex].GetMenuItem();
 
         Drink drink = menuItem as Drink;
         Food food = menuItem as Food;
@@ -50,7 +50,7 @@ public class OrderSelectorView : MonoBehaviour
                     drink = temp.GetDrinkDecorator(drink);
                 }
             }
-
+            menuItem = drink;
             return drink.GetDescription() + "price: " + drink.GetPrice().ToString("F2");
         }
         if (food != null)
@@ -63,7 +63,7 @@ public class OrderSelectorView : MonoBehaviour
                     food = temp.GetFoodDecorator(food);
                 }
             }
-
+            menuItem = food;
             return food.GetDescription() + " price: " + food.GetPrice().ToString("F2");
         }
 
