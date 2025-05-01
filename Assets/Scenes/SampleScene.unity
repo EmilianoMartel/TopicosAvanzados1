@@ -2343,6 +2343,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b633b2458509b534ca37b00e49c94389, type: 2}
   - {fileID: 11400000, guid: 10183d54ed13e574ca130a86f37c8e58, type: 2}
   - {fileID: 11400000, guid: 9969eb819900112488a761c78c3151e1, type: 2}
+  - {fileID: 11400000, guid: 084688c8fd3e0c743940c2eb57819fa7, type: 2}
   _dropDown: {fileID: 640786254}
   _decoratorViewPrefab: {fileID: 546313074}
   _contentParent: {fileID: 1450338992}
@@ -2406,7 +2407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6fbd1e94b9765a49adf91fedcd1cf99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _clientManager: {fileID: 0}
+  _clientManager: {fileID: 453346926}
   _waitressManager: {fileID: 2071713093}
   _couldDownWork: 2
 --- !u!4 &937812605
@@ -3534,7 +3535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6fbd1e94b9765a49adf91fedcd1cf99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _clientManager: {fileID: 0}
+  _clientManager: {fileID: 453346926}
   _waitressManager: {fileID: 2071713093}
   _couldDownWork: 2
 --- !u!4 &1525066190
@@ -4090,7 +4091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6fbd1e94b9765a49adf91fedcd1cf99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _clientManager: {fileID: 0}
+  _clientManager: {fileID: 453346926}
   _waitressManager: {fileID: 2071713093}
   _couldDownWork: 2
 --- !u!4 &1937680328

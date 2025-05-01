@@ -15,3 +15,5 @@ MonoBehaviour:
   _itemID: Macha
   _type: 1
   _price: 10
+  _itemDecorators:
+  - {fileID: 11400000, guid: bffb3c923ea873f40aac688c2b590e98, type: 2}
