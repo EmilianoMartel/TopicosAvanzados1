@@ -10,15 +10,17 @@ public class Order : MonoBehaviour
 
     private OrderStruct _orderInfo;
 
-    public Action<Order> OrderFinished;
+    public Action<Order, OrderStruct> OrderFinished;
 
     public void SetOrder(OrderStruct orderInfo)
     {
         _orderInfo = orderInfo;
-        
+
+        _orderText.text = "Order N° " + _orderInfo.IDOrder.ToString() + " = ";
+
         foreach (var item in orderInfo.MenuItems)
         {
-            _orderText.text += item.GetDescription();
+            _orderText.text += item.GetDescription() + " - ";
         }
 
         int timeToPrepare = orderInfo.MenuItems.Count;
@@ -34,6 +36,6 @@ public class Order : MonoBehaviour
     private IEnumerator WaitForComplete(float timeToPrepare)
     {
         yield return new WaitForSeconds(timeToPrepare);
-        OrderFinished?.Invoke(this);
+        OrderFinished?.Invoke(this, _orderInfo);
     }
 }
