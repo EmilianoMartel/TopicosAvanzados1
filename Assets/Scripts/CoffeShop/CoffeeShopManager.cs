@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,10 +14,12 @@ public class CoffeeShopManager : MonoBehaviour
     [SerializeField] private Button _addButton;
     [SerializeField] private Button _orderButon;
     [SerializeField] private TMP_Text _currentOrder;
-    [SerializeField] private TMP_Text _orderList;
 
     private int _ordersCount = 1;
     private string _fullOrder = "";
+    private OrderStruct _orderStruct;
+
+    public Action<OrderStruct> CreateOrder;
 
     private void OnEnable()
     {
@@ -38,10 +41,16 @@ public class CoffeeShopManager : MonoBehaviour
     private void HandleAddOrder()
     {
         if (_fullOrder == "")
+        {
             _fullOrder = $"Order N°{_ordersCount}: \n";
+            _orderStruct.IDOrder = _ordersCount;
+            _orderStruct.MenuItems = new();
+        }
 
-        _fullOrder += _orderSelectorView.GetOrder();
+        _fullOrder += _orderSelectorView.GetOrder(out MenuItem menu);
         _fullOrder += "\n";
+
+        _orderStruct.MenuItems.Add(menu);
 
         _currentOrder.text = "Current Order: \n" + _fullOrder;
     }
@@ -51,8 +60,9 @@ public class CoffeeShopManager : MonoBehaviour
         if(_fullOrder == "")
             return;
 
-        _orderList.text += _fullOrder;
+        CreateOrder?.Invoke(_orderStruct);
 
+        _orderStruct = new();
         _ordersCount++;
         _fullOrder = "";
     }
@@ -74,12 +84,6 @@ public class CoffeeShopManager : MonoBehaviour
         if (!_orderButon)
         {
             Debug.LogError($"{name}: OrderButton is null.\nCheck and assigned one.");
-            enabled = false;
-            return;
-        }
-        if (!_orderList)
-        {
-            Debug.LogError($"{name}: OrderList is null.\nCheck and assigned one.");
             enabled = false;
             return;
         }
