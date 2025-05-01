@@ -44,6 +44,7 @@ public class CoffeeShopManager : MonoBehaviour
         {
             _fullOrder = $"Order N°{_ordersCount}: \n";
             _orderStruct.IDOrder = _ordersCount;
+            _orderStruct.FullPrice = 0;
             _orderStruct.MenuItems = new();
         }
 
@@ -51,7 +52,8 @@ public class CoffeeShopManager : MonoBehaviour
         _fullOrder += "\n";
 
         _orderStruct.MenuItems.Add(menu);
-
+        _orderStruct.FullPrice += menu.GetPrice();
+        
         _currentOrder.text = "Current Order: \n" + _fullOrder;
     }
 
@@ -59,6 +61,8 @@ public class CoffeeShopManager : MonoBehaviour
     {
         if(_fullOrder == "")
             return;
+
+        _orderStruct.OrderDescription = _fullOrder;
 
         CreateOrder?.Invoke(_orderStruct);
 

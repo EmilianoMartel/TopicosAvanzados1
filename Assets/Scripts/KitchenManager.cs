@@ -13,6 +13,8 @@ public class KitchenManager : MonoBehaviour
     [Header("View")]
     [SerializeField] private Transform _contentTransform;
 
+    //public List<DiscountRules> Discounts;
+
     private List<Order> _currentOrderns = new();
     private List<Order> _desactivatedOrders = new();
 

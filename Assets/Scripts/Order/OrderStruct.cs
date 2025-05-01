@@ -7,4 +7,6 @@ public struct OrderStruct
 {
     public int IDOrder;
     public List<MenuItem> MenuItems;
+    public string OrderDescription;
+    public float FullPrice;
 }
