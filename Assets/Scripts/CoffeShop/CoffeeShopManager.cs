@@ -14,7 +14,6 @@ public class CoffeeShopManager : MonoBehaviour
     [SerializeField] private Button _addButton;
     [SerializeField] private Button _orderButon;
     [SerializeField] private TMP_Text _currentOrder;
-    [SerializeField] private TMP_Text _orderList;
 
     private int _ordersCount = 1;
     private string _fullOrder = "";
@@ -61,8 +60,6 @@ public class CoffeeShopManager : MonoBehaviour
         if(_fullOrder == "")
             return;
 
-        _orderList.text += _fullOrder;
-
         CreateOrder?.Invoke(_orderStruct);
 
         _orderStruct = new();
@@ -87,12 +84,6 @@ public class CoffeeShopManager : MonoBehaviour
         if (!_orderButon)
         {
             Debug.LogError($"{name}: OrderButton is null.\nCheck and assigned one.");
-            enabled = false;
-            return;
-        }
-        if (!_orderList)
-        {
-            Debug.LogError($"{name}: OrderList is null.\nCheck and assigned one.");
             enabled = false;
             return;
         }

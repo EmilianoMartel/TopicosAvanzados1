@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class KitchenManager : MonoBehaviour
 {
+    [SerializeField] private CoffeeShopManager _shopManager;
     [SerializeField] private Order _orderPrefab;
 
     [Header("View")]
@@ -17,23 +20,33 @@ public class KitchenManager : MonoBehaviour
 
     private void OnEnable()
     {
-
+        _shopManager.CreateOrder += HandleStartOrder;
     }
 
     private void OnDisable()
     {
+        _shopManager.CreateOrder -= HandleStartOrder;
 
+        foreach (var item in _currentOrderns)
+        {
+            item.OrderFinished -= HandleFinishOrder;
+        }
+        foreach (var desc in _desactivatedOrders)
+        {
+            desc.OrderFinished -= HandleFinishOrder;
+        }
     }
 
     private void HandleStartOrder(OrderStruct order)
     {
         Order viewOrder = SelectOrderView();
+        viewOrder.gameObject.SetActive(true);
         viewOrder.SetOrder(order);
     }
 
-    private void HandleFinishOrder(Order order)
+    private void HandleFinishOrder(Order order, OrderStruct orderInfo)
     {
-        //OrderFinished?.Invoke(order.orderInfo);
+        OrderFinished?.Invoke(orderInfo);
 
         if (_currentOrderns.Contains(order))
             _currentOrderns.Remove(order);
@@ -51,6 +64,7 @@ public class KitchenManager : MonoBehaviour
         if (_desactivatedOrders.Count == 0)
         {
             order = Instantiate(_orderPrefab, _contentTransform);
+            order.OrderFinished += HandleFinishOrder;
         }
         else
         {
