@@ -45,12 +45,12 @@ public class CoffeeShopManager : MonoBehaviour
         {
             _fullOrder = $"Order N°{_ordersCount}: \n";
             _orderStruct.IDOrder = _ordersCount;
+            _orderStruct.MenuItems = new();
         }
 
         _fullOrder += _orderSelectorView.GetOrder(out MenuItem menu);
         _fullOrder += "\n";
 
-        _orderStruct.MenuItems = new();
         _orderStruct.MenuItems.Add(menu);
 
         _currentOrder.text = "Current Order: \n" + _fullOrder;
