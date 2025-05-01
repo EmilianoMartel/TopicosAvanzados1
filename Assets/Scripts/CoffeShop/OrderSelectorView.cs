@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEditor.Experimental.GraphView;
 
-public class CoffeShopView : MonoBehaviour
+public class OrderSelectorView : MonoBehaviour
 {
     [SerializeField] private List<ItemMenuSO> _menuItem;
     [SerializeField] private TMP_Dropdown _dropDown;
@@ -30,6 +31,43 @@ public class CoffeShopView : MonoBehaviour
         ValidateReferences();
         SetDrown();
         HandleValueDropDownChanged(0);
+    }
+
+    public string GetOrder()
+    {
+        MenuItem menuItem = _menuItem[_currentIndex].GetMenuItem();
+
+        Drink drink = menuItem as Drink;
+        Food food = menuItem as Food;
+
+        if (drink != null)
+        {
+            for (int i = 0; i < _decoratorViewsActivated.Count; i++)
+            {
+                ItemDecoratorSO temp = _decoratorViewsActivated[i].GetItem();
+                if (temp != null)
+                {
+                    drink = temp.GetDrinkDecorator(drink);
+                }
+            }
+
+            return drink.GetDescription() + "price: " + drink.GetPrice().ToString("F2");
+        }
+        if (food != null)
+        {
+            for (int i = 0; i < _decoratorViewsActivated.Count; i++)
+            {
+                ItemDecoratorSO temp = _decoratorViewsActivated[i].GetItem();
+                if (temp != null)
+                {
+                    food = temp.GetFoodDecorator(food);
+                }
+            }
+
+            return food.GetDescription() + " price: " + food.GetPrice().ToString("F2");
+        }
+
+        return "";
     }
 
     private void SetDrown()
@@ -99,6 +137,12 @@ public class CoffeShopView : MonoBehaviour
         if (!_decoratorViewPrefab)
         {
             Debug.LogError($"{name}: Decorator view is null.\nCheck and assigned one.");
+            enabled = false;
+            return;
+        }
+        if (!_contentParent)
+        {
+            Debug.LogError($"{name}: Content Parent is null.\nCheck and assigned one.");
             enabled = false;
             return;
         }
